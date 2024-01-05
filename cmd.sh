@@ -34,7 +34,7 @@ else
 fi || status="failed"
 
 # Finish with the correct failure code.
-if [ "${status}" = "failed" ]; then
+if [ "${status:-default}" = "failed" ]; then
 	echo "ACTION: Thanks for using this action, good luck troubleshooting."
 	exit 1
 else
