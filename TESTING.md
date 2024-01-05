@@ -8,12 +8,12 @@ To test the container before publication, run these steps.
 
 ```shell
 docker run --privileged \
-  --volume $(pwd):/github/workspace/robertdebock/$(basename $(pwd)):z \
+  --volume $(pwd):/github/workspace/balling-dev/$(basename $(pwd)):z \
   --volume /var/run/docker.sock:/var/run/docker.sock:z \
   --tty \
   --interactive \
   --env command="syntax" \
-  --env GITHUB_REPOSITORY="robertdebock/$(basename  $(pwd))" \
+  --env GITHUB_REPOSITORY="balling-dev/$(basename  $(pwd))" \
   --env ANSIBLE_ROLES_PATH="../" \
   ${docker_hash}
 ```
@@ -22,11 +22,11 @@ docker run --privileged \
 
 ```shell
 docker run --privileged \
-  --volume $(pwd):/github/workspace/robertdebock/$(basename $(pwd)):z \
+  --volume $(pwd):/github/workspace/balling-dev/$(basename $(pwd)):z \
   --volume /var/run/docker.sock:/var/run/docker.sock:z \
   --tty \
   --interactive \
-  --env GITHUB_REPOSITORY="robertdebock/$(basename $(pwd))" \
+  --env GITHUB_REPOSITORY="balling-dev/$(basename $(pwd))" \
   --env ANSIBLE_ROLES_PATH="../" \
   ${docker_hash}
 ```
