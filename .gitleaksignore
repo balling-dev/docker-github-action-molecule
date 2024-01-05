@@ -1,0 +1,2 @@
+# Ignore GPG signing key ID in release.sh
+release.sh:generic-api-key:32
