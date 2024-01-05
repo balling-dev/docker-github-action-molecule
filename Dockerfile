@@ -1,23 +1,19 @@
-FROM fedora:38
+#checkov:skip=CKV_DOCKER_3:Allow root user
+FROM ubuntu:22.04
 
-LABEL maintainer="Robert de Bock <robert@meinit.nl>"
-LABEL build_date="2023-09-24"
+LABEL org.opencontainers.image.licenses="Apache-2.0" \
+      org.opencontainers.image.source="https://github.com/balling-dev/docker-github-action-molecule" \
+      org.opencontainers.image.authors="Kristoffer Winther Balling <balling_cc@k.wbnet.dk>"
 
+HEALTHCHECK CMD curl --fail http://localhost:3000 || exit 1
+
+ENV TZ=Etc/UTC
+ENV DEBIAN_FRONTEND=noninteractive
 WORKDIR /github/workspace
 
-RUN dnf install -y docker \
-                   gcc \
-                   git-core \
-                   python3-devel \
-                   python3-libselinux \
-                   python3-jmespath \
-                   python3-pip \
-                   rsync ; \
-    dnf clean all
+COPY scripts requirements.txt cmd.sh /scripts/
 
-ADD requirements.txt /requirements.txt
-RUN python3 -m pip install -r /requirements.txt && \
-    python3 -m pip cache purge
+RUN /scripts/install_docker.sh \
+  && /scripts/install_python.sh
 
-ADD cmd.sh /cmd.sh
-CMD sh /cmd.sh
+ENTRYPOINT ["/scripts/cmd.sh"]

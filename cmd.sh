@@ -1,40 +1,42 @@
-#!/bin/sh
+#!/usr/bin/env bash
+
+set -euf -o pipefail
 
 echo "ACTION: Welcome to the molecule action."
 
-# A function to retry an action a few times until succesful.
+# A function to retry an action a few times until successful.
 retry() {
-  counter=0
-  until "$@" ; do
-    exit=$?
-    counter=$((counter + 1))
-    echo "ACTION: Retry attempt ${counter}."
-    if [ "$counter" -ge "${max_failures:-3}" ] ; then
-      return $exit
-    fi
-  done
-  return 0
+	counter=0
+	until "$@"; do
+		exit=$?
+		counter=$((counter + 1))
+		echo "ACTION: Retry attempt ${counter}."
+		if [ "$counter" -ge "${max_failures:-3}" ]; then
+			return $exit
+		fi
+	done
+	return 0
 }
 
 # Go into the repository or assume it's here. (`.`)
 cd "${GITHUB_REPOSITORY:-.}" || exit
 
 # Test the role.
-if [ -f tox.ini ] && [ "${command:-test}" = test ] ; then
-  # If `tox.ini` exists, run tox.
-  # (Tox will run molecule with a specified Ansible version.)
-  echo "ACTION: Running (retry) tox."
-  retry tox
+if [ -f tox.ini ] && [ "${command:-test}" = test ]; then
+	# If `tox.ini` exists, run tox.
+	# (Tox will run molecule with a specified Ansible version.)
+	echo "ACTION: Running (retry) tox."
+	retry tox
 else
-  # No `tox.ini`?, just run molecule.
-  echo "ACTION: Running (retry) molecule."
-  PY_COLORS=1 ANSIBLE_FORCE_COLOR=1 retry molecule "${command:-test}" --scenario-name "${scenario:-default}"
+	# No `tox.ini`?, just run molecule.
+	echo "ACTION: Running (retry) molecule."
+	PY_COLORS=1 ANSIBLE_FORCE_COLOR=1 retry molecule "${command:-test}" --scenario-name "${scenario:-default}"
 fi || status="failed"
 
 # Finish with the correct failure code.
-if [ "${status}" = "failed" ] ; then
-  echo "ACTION: Thanks for using this action, good luck troubleshooting."
-  exit 1
+if [ "${status}" = "failed" ]; then
+	echo "ACTION: Thanks for using this action, good luck troubleshooting."
+	exit 1
 else
-  echo "ACTION: Thanks for using this action."
+	echo "ACTION: Thanks for using this action."
 fi
