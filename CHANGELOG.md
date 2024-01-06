@@ -25,6 +25,7 @@ All notable changes to this project will be documented in this file.
 
 ### 🎨 Styling
 
+- Fix linting - ([888986d](https://github.com/balling-dev/docker-github-action-molecule/commit/888986d35b6f6ffa4e739b37804c76b979d03b14))
 - Fix yaml linting - ([f708121](https://github.com/balling-dev/docker-github-action-molecule/commit/f708121e35c20d1d31d978b785599fa9953327a4))
 
 ### ⚙️ Miscellaneous Tasks
