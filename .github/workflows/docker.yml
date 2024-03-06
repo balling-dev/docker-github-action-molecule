@@ -92,7 +92,7 @@ jobs:
           cache-to: type=local,dest=/tmp/.buildx-cache
 
       - name: Scan the image
-        uses: anchore/sbom-action@v0.15.8
+        uses: anchore/sbom-action@v0.15.9
         with:
           image: ghcr.io/${{ github.repository_owner }}/github-action-molecule
 
