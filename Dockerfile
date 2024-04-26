@@ -1,5 +1,5 @@
 #checkov:skip=CKV_DOCKER_3:Allow root user
-FROM ubuntu:22.04
+FROM ubuntu:24.04
 
 LABEL org.opencontainers.image.licenses="Apache-2.0" \
       org.opencontainers.image.source="https://github.com/balling-dev/docker-github-action-molecule" \
